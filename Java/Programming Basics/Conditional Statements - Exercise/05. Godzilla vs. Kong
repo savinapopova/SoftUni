@@ -1,0 +1,33 @@
+import java.util.Scanner;
+
+public class GodzillaVsKong {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        double budget = Double.parseDouble(scanner.nextLine());
+        int extrasCount = Integer.parseInt(scanner.nextLine());
+        double clothingPricePerUnit = Double.parseDouble(scanner.nextLine());
+
+        double decorPrice = budget * 0.10;
+        double allClothingPrice = clothingPricePerUnit * extrasCount;
+
+
+
+        if (extrasCount > 150) {
+
+            allClothingPrice = allClothingPrice * 0.90;
+
+        }
+        double totalCosts = decorPrice + allClothingPrice;
+
+        double diff = Math.abs(totalCosts - budget);
+
+        if (totalCosts <= budget) {
+            System.out.printf("Action!\n" +
+                    "Wingard starts filming with %.2f leva left.", diff);
+        } else {
+            System.out.printf("Not enough money!\n" +
+                    "Wingard needs %.2f leva more.", diff);
+        }
+    }
+}
