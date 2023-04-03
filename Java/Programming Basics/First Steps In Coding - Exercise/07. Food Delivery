@@ -1,0 +1,18 @@
+import java.util.Scanner;
+
+public class P07FoodDelivery {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+
+
+        int chickenMenuCount = Integer.parseInt(scanner.nextLine());
+        int fishMenuCount = Integer.parseInt(scanner.nextLine());
+        int vegMenuCount = Integer.parseInt(scanner.nextLine());
+
+        double menuSum = (chickenMenuCount * 10.35) + (fishMenuCount * 12.40) + (vegMenuCount * 8.15);
+        double dessert = 0.20 * menuSum;
+        double total = menuSum + dessert + 2.50;
+        System.out.println(total);
+    }
+}
