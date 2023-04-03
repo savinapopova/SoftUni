@@ -1,0 +1,16 @@
+import java.util.Scanner;
+
+public class YardGreening {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double sqM = Double.parseDouble(scanner.nextLine());
+        double sqMSum = sqM * 7.61;
+        double discount = sqMSum * 0.18;
+        double total = sqMSum - discount;
+
+        System.out.printf("The final price is: %.2f lv. %n", total);
+
+        System.out.printf("The discount is: %.2f lv.", discount);
+
+    }
+}
