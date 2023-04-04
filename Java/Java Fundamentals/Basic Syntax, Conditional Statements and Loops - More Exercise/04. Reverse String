@@ -1,0 +1,24 @@
+package BasicSyntaxME;
+
+import java.util.Scanner;
+
+public class ReverseString {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        String reversed = "";
+
+
+
+        for (int i = 0; i <= input.length() - 1; i++) {
+
+            char symbol = input.charAt(input.length() - i - 1);
+
+           reversed = reversed + symbol;
+
+        }
+
+        System.out.println(reversed);
+    }
+}
