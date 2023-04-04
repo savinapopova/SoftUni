@@ -1,0 +1,62 @@
+package BasicSyntaxME;
+
+import java.util.Scanner;
+
+public class SortNumbers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int number1 = Integer.parseInt(scanner.nextLine());
+        int number2 = Integer.parseInt(scanner.nextLine());
+        int number3 = Integer.parseInt(scanner.nextLine());
+
+        int maxNumber = 0;
+        int midNumber = 0;
+        int minNumber = 0;
+
+        if (number1 >= number2 && number2 >= number3) {
+
+            maxNumber = number1;
+            midNumber = number2;
+            minNumber = number3;
+
+        } else if (number1 >= number3 && number3 >= number2) {
+
+            maxNumber = number1;
+            midNumber = number3;
+            minNumber = number2;
+
+
+        } else if (number2 >= number1 && number1 >= number3) {
+
+            maxNumber = number2;
+            midNumber = number1;
+            minNumber = number3;
+
+
+        } else if (number2 >= number3 && number3 >= number1)  {
+
+            maxNumber = number2;
+            midNumber = number3;
+            minNumber = number1;
+
+        } else if (number3 >= number1 && number1 >= number2) {
+
+            maxNumber = number3;
+            midNumber = number1;
+            minNumber = number2;
+
+        } else if (number3 >= number2 && number2 >= number1) {
+
+
+            maxNumber = number3;
+            midNumber = number2;
+            minNumber = number1;
+        }
+        System.out.println(maxNumber);
+        System.out.println(midNumber);
+        System.out.println(minNumber);
+
+
+    }
+}
