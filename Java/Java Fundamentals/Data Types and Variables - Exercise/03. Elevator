@@ -1,0 +1,22 @@
+package DataTypesAndVariablesExe;
+
+import java.util.Scanner;
+
+public class Elevator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int countPeople = Integer.parseInt(scanner.nextLine());
+
+        int capacity = Integer.parseInt(scanner.nextLine());
+
+        int courses = countPeople / capacity;
+
+        if (countPeople % capacity != 0) {
+
+            System.out.println(courses + 1);
+        } else {
+            System.out.println(courses);
+        }
+    }
+}
