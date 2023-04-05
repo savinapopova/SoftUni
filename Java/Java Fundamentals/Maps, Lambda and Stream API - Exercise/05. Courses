@@ -1,0 +1,43 @@
+package AssociativeArraysExe;
+
+import java.util.*;
+
+public class Courses {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, List<String>> coursesMap = new LinkedHashMap<>();
+
+        String input = scanner.nextLine();
+
+        while (!input.equals("end")) {
+
+            String[] inputArr = input.split(" : ");
+            String course = inputArr[0];
+            String name = inputArr[1];
+
+            if (!coursesMap.containsKey(course)) {
+
+                coursesMap.put(course, new ArrayList<>());
+
+            }
+
+            coursesMap.get(course).add(name);
+
+            input = scanner.nextLine();
+        }
+
+        for (Map.Entry<String, List<String>> entry : coursesMap.entrySet()) {
+
+            System.out.printf("%s: %d%n",entry.getKey(), entry.getValue().size());
+
+            for (int i = 0; i <= entry.getValue().size() -1; i++) {
+
+                System.out.printf("-- %s%n",entry.getValue().get(i));
+
+            }
+
+        }
+
+    }
+}
