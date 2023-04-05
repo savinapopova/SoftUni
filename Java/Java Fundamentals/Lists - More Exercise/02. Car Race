@@ -1,0 +1,53 @@
+package ListsME;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class CarRace {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<Integer> raceElements = Arrays.stream(scanner.nextLine().split(" "))
+                .map(Integer::parseInt).collect(Collectors.toList());
+
+        int middleElementIndex = raceElements.size() /2;
+
+        List<Integer> firstCarTimes = raceElements.subList(0, middleElementIndex);
+        List<Integer> secondCarTimes = raceElements.subList(middleElementIndex +1, raceElements.size());
+        Collections.reverse(secondCarTimes);
+
+
+        double totalTimeFirstCar = carTimes(firstCarTimes);
+
+        double totalTimeSecondCar = carTimes(secondCarTimes);
+
+        if (totalTimeFirstCar < totalTimeSecondCar) {
+
+            System.out.printf("The winner is left with total time: %.1f", totalTimeFirstCar);
+
+        } else if (totalTimeSecondCar < totalTimeFirstCar) {
+
+            System.out.printf("The winner is right with total time: %.1f", totalTimeSecondCar);
+        }
+
+
+    }
+
+    private static Double carTimes(List<Integer> carTimes) {
+        double totalTime = 0;
+
+
+        for (int i = 0; i <= carTimes.size() - 1; i++) {
+            int currentTime = carTimes.get(i);
+
+            totalTime = totalTime + currentTime;
+
+            if (currentTime == 0) {
+
+                totalTime = totalTime * 0.8;
+            }
+
+        }
+        return totalTime;
+    }
+}
