@@ -1,0 +1,48 @@
+package AssociativeArraysExe;
+
+import java.util.*;
+
+public class CompanyUsers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+
+        Map<String, List<String>> employeeMap = new LinkedHashMap<>();
+
+        while (!input.equals("End")) {
+
+            String[] dataArr = input.split(" -> ");
+            String companyName = dataArr[0];
+            String id = dataArr[1];
+
+            if (!employeeMap.containsKey(companyName)) {
+
+                employeeMap.put(companyName, new ArrayList<>());
+                employeeMap.get(companyName).add(id);
+
+            } else {
+
+                if (!employeeMap.get(companyName).contains(id)) {
+
+                    employeeMap.get(companyName).add(id);
+                }
+            }
+
+            input = scanner.nextLine();
+        }
+
+        for (Map.Entry<String, List<String>> entry : employeeMap.entrySet()) {
+
+            System.out.printf("%s%n", entry.getKey());
+
+            for (int i = 0; i <= entry.getValue().size() - 1; i++) {
+
+                System.out.printf("-- %s%n", entry.getValue().get(i));
+
+            }
+        }
+
+
+    }
+}
