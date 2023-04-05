@@ -1,0 +1,73 @@
+package ListsME;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class DrumSet {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        double savings = Double.parseDouble(scanner.nextLine());
+
+        List<Integer> initialDrums = Arrays.stream(scanner.nextLine().split(" "))
+                .map(Integer::parseInt).collect(Collectors.toList());
+
+        String input = scanner.nextLine();
+
+        List<Integer> drums = new ArrayList<>();
+
+        for (int i = 0; i <= initialDrums.size() - 1; i++) {
+            int currentElement = initialDrums.get(i);
+
+            drums.add(currentElement);
+
+
+        }
+
+        while (!input.equals("Hit it again, Gabsy!")) {
+
+            int hitPower = Integer.parseInt(input);
+
+            for (int i = 0; i <= drums.size() - 1; i++) {
+
+                int currentDrum = drums.get(i);
+                int initialQuality = initialDrums.get(i);
+                double price = 3 * initialQuality;
+
+
+                currentDrum -= hitPower;
+
+                if (currentDrum <= 0) {
+
+                    if (savings >= price) {
+
+                        drums.set(i, initialQuality);
+                        savings = savings - price;
+
+                    } else {
+
+                        drums.remove(drums.indexOf(drums.get(i)));
+                        initialDrums.remove(initialDrums.indexOf(initialDrums.get(i)));
+                        i -= 1;
+                    }
+
+
+
+                } else {
+
+                    drums.set(i, currentDrum);
+                }
+
+            }
+
+
+            input = scanner.nextLine();
+        }
+
+        System.out.println(drums.toString().replaceAll("[\\[\\],]", ""));
+        System.out.printf("Gabsy has %.2flv.", savings);
+    }
+}
