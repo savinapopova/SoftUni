@@ -1,0 +1,133 @@
+package AssociativeArraysME;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
+public class MOBAChallenger {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String, Map<String, Integer>> tierMap = new TreeMap<>();
+
+        while (!input.equals("Season end")) {
+
+            if (input.contains(" -> ")) {
+
+                String[] inputArr = input.split(" -> ");
+                String player = inputArr[0];
+                String position = inputArr[1];
+                int skill = Integer.parseInt(inputArr[2]);
+
+                if (!tierMap.containsKey(player)) {
+
+                    tierMap.put(player, new TreeMap<>());
+                    tierMap.get(player).put(position, skill);
+
+                } else {
+
+                    if (!tierMap.get(player).containsKey(position)) {
+
+                        tierMap.get(player).put(position, skill);
+
+                    } else {
+
+                        int currentSkill = tierMap.get(player).get(position);
+
+                        if (skill > currentSkill) {
+
+                            tierMap.get(player).put(position, skill);
+                        }
+                    }
+                }
+            } else if (input.contains(" vs ")) {
+                String[] inputArr = input.split(" vs ");
+                String player1 = inputArr[0];
+                String player2 = inputArr[1];
+
+                if (tierMap.containsKey(player1) && tierMap.containsKey(player2)) {
+                    boolean isDefeated = false;
+
+                    for (Map.Entry<String, Integer> entry1 : tierMap.get(player1).entrySet()) {
+
+                        for (Map.Entry<String, Integer> entry2 : tierMap.get(player2).entrySet()) {
+
+                            if (entry1.getKey().equals(entry2.getKey())) {
+
+                                int skills1 = entry1.getValue();
+                                int skills2 = entry2.getValue();
+
+                                if (skills1 > skills2) {
+
+                                    isDefeated = true;
+                                    tierMap.remove(player2);
+                                    break;
+
+                                } else if (skills2 > skills1) {
+
+                                    isDefeated = true;
+                                    tierMap.remove(player1);
+                                    break;
+
+                                }
+
+
+                            }
+
+                        }
+                        if (isDefeated) {
+
+                            break;
+                        }
+
+                    }
+
+                }
+
+
+            }
+
+            input = scanner.nextLine();
+        }
+
+        if (!tierMap.isEmpty()) {
+
+            Map<String, Integer> totalPointsMap = new TreeMap<>();
+            for (Map.Entry<String, Map<String, Integer>> entry : tierMap.entrySet()) {
+                int sum = 0;
+                for (Map.Entry<String, Integer> stringIntegerEntry : entry.getValue().entrySet()) {
+
+                    sum += stringIntegerEntry.getValue();
+                }
+
+                totalPointsMap.put(entry.getKey(), sum);
+
+            }
+
+           totalPointsMap =  totalPointsMap.entrySet().stream()
+                   .sorted((e1,e2) -> e2.getValue().compareTo(e1.getValue()))
+                   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+                           ,(a1, a2) -> a1, LinkedHashMap::new));
+
+
+
+            for (Map.Entry<String, Integer> entry : totalPointsMap.entrySet()) {
+
+                System.out.printf("%s: %d skill%n", entry.getKey(), entry.getValue());
+
+                tierMap.get(entry.getKey()).entrySet().stream()
+                        .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                        .forEach(p -> System.out.printf("- %s <::> %d%n", p.getKey(), p.getValue()));
+
+
+            }
+
+
+        }
+
+
+    }
+}
