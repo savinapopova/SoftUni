@@ -1,0 +1,113 @@
+package AssociativeArraysME;
+
+import java.util.*;
+
+public class DragonArmy {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+
+        Map<String, Map<String, List<Integer>>> dragonMap = new LinkedHashMap<>();
+
+        int n = Integer.parseInt(scanner.nextLine());
+
+        for (int i = 1; i <= n; i++) {
+
+            String input = scanner.nextLine();
+            String[] inputArr = input.split(" ");
+            String type = inputArr[0];
+            String name = inputArr[1];
+            int damage = 45;
+            int health = 250;
+            int armor = 10;
+
+            if (!inputArr[2].equals("null")) {
+
+                damage = Integer.parseInt(inputArr[2]);
+            }
+
+            if (!inputArr[3].equals("null")) {
+
+                health = Integer.parseInt(inputArr[3]);
+            }
+
+            if (!inputArr[4].equals("null")) {
+
+                armor = Integer.parseInt(inputArr[4]);
+            }
+
+            if (!dragonMap.containsKey(type)) {
+
+                dragonMap.put(type, new TreeMap<>());
+                dragonMap.get(type).put(name, new ArrayList<>());
+                dragonMap.get(type).get(name).add(damage);
+                dragonMap.get(type).get(name).add(health);
+                dragonMap.get(type).get(name).add(armor);
+
+            } else {
+
+                if (!dragonMap.get(type).containsKey(name)) {
+
+                    dragonMap.get(type).put(name, new ArrayList<>());
+                    dragonMap.get(type).get(name).add(damage);
+                    dragonMap.get(type).get(name).add(health);
+                    dragonMap.get(type).get(name).add(armor);
+
+
+                } else {
+
+                    dragonMap.get(type).get(name).set(0, damage);
+                    dragonMap.get(type).get(name).set(1, health);
+                    dragonMap.get(type).get(name).set(2, armor);
+
+
+                }
+            }
+
+
+        }
+
+        Map<String, List<Double>> avgValuesMap = new LinkedHashMap<>();
+
+        for (Map.Entry<String, Map<String, List<Integer>>> type : dragonMap.entrySet()) {
+            avgValuesMap.put(type.getKey(), new ArrayList<>());
+            double damageSum = 0;
+            double healthSum = 0;
+            double armorSum = 0;
+            for (Map.Entry<String, List<Integer>> name : type.getValue().entrySet()) {
+                int currentDamage = name.getValue().get(0);
+                int currentHealth = name.getValue().get(1);
+                int currentArmor = name.getValue().get(2);
+
+                damageSum = damageSum + currentDamage;
+                healthSum = healthSum + currentHealth;
+                armorSum = armorSum + currentArmor;
+
+            }
+
+            double avgDamage = damageSum / type.getValue().size();
+            double avgHealth = healthSum / type.getValue().size();
+            double avgArmor = armorSum / type.getValue().size();
+
+            avgValuesMap.get(type.getKey()).add(avgDamage);
+            avgValuesMap.get(type.getKey()).add(avgHealth);
+            avgValuesMap.get(type.getKey()).add(avgArmor);
+
+        }
+
+        for (Map.Entry<String, List<Double>> entry : avgValuesMap.entrySet()) {
+
+            System.out.printf("%s::(%.2f/%.2f/%.2f)%n", entry.getKey(), entry.getValue().get(0),
+                    entry.getValue().get(1), entry.getValue().get(2));
+
+            for (Map.Entry<String, List<Integer>> listEntry : dragonMap.get(entry.getKey()).entrySet()) {
+
+                System.out.printf("-%s -> damage: %d, health: %d, armor: %d%n", listEntry.getKey(),
+                        listEntry.getValue().get(0), listEntry.getValue().get(1),
+                        listEntry.getValue().get(2));
+            }
+
+
+        }
+    }
+}
