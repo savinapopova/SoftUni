@@ -1,0 +1,35 @@
+package AssociativeArraysExe;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class AMinerTask {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String, Integer> resourceMap = new LinkedHashMap<>();
+
+        while (!input.equals("stop")) {
+
+            String resource = input;
+            int quantity = Integer.parseInt(scanner.nextLine());
+
+            if (!resourceMap.containsKey(resource)) {
+
+                resourceMap.put(resource, quantity);
+
+            } else {
+
+                int currentQuantity = resourceMap.get(resource);
+                resourceMap.put(resource, currentQuantity + quantity);
+            }
+
+            input = scanner.nextLine();
+
+        }
+
+        resourceMap.entrySet().forEach(entry -> System.out.printf("%s -> %d%n",entry.getKey(), entry.getValue()));
+    }
+}
