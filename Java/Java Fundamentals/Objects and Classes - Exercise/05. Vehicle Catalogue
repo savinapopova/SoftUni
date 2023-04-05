@@ -1,0 +1,91 @@
+package OCE;
+
+import java.util.*;
+
+public class VehicleCatalogueN {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String, Map<String, List<String>>> vehicleMap = new LinkedHashMap<>();
+        vehicleMap.put("car", new LinkedHashMap<>());
+        vehicleMap.put("truck", new LinkedHashMap<>());
+
+        while (!input.equals("End")) {
+
+            String[] inputArr = input.split(" ");
+            String type = inputArr[0];
+            String model = inputArr[1];
+            String colour = inputArr[2];
+            String horsepower = inputArr[3];
+
+          vehicleMap.get(type).put(model,new ArrayList<>());
+          vehicleMap.get(type).get(model).add(colour);
+          vehicleMap.get(type).get(model).add(horsepower);
+
+
+            input = scanner.nextLine();
+        }
+
+        double carHpSum = 0;
+        double truckHpSum = 0;
+        double avgCarHp = 0;
+        double avgTruckHp = 0;
+
+        if (!vehicleMap.get("car") .isEmpty()) {
+
+            for (Map.Entry<String, List<String>> entry : vehicleMap.get("car").entrySet()) {
+
+                double currentHp = Double.parseDouble(entry.getValue().get(1));
+                carHpSum = carHpSum + currentHp;
+
+            }
+
+            avgCarHp = carHpSum / vehicleMap.get("car").size();
+        }
+
+        if (!vehicleMap.get("truck").isEmpty()) {
+
+        for (Map.Entry<String, List<String>> entry : vehicleMap.get("truck").entrySet()) {
+
+            double currentHp = Double.parseDouble(entry.getValue().get(1));
+            truckHpSum = truckHpSum + currentHp;
+
+        }
+
+        avgTruckHp = truckHpSum / vehicleMap.get("truck").size();
+
+        }
+
+        String command = scanner.nextLine();
+
+        while (!command.equals("Close the Catalogue")) {
+
+            String getModel = command;
+
+            if (vehicleMap.get("car").containsKey(getModel)) {
+
+                System.out.println("Type: Car");
+                System.out.printf("Model: %s%n", getModel);
+                System.out.printf("Color: %s%n",vehicleMap.get("car").get(getModel).get(0));
+                System.out.printf("Horsepower: %s%n",vehicleMap.get("car").get(getModel).get(1));
+
+            } else if (vehicleMap.get("truck").containsKey(getModel)) {
+
+                System.out.println("Type: Truck");
+                System.out.printf("Model: %s%n", getModel);
+                System.out.printf("Color: %s%n",vehicleMap.get("truck").get(getModel).get(0));
+                System.out.printf("Horsepower: %s%n",vehicleMap.get("truck").get(getModel).get(1));
+
+
+            }
+
+
+            command = scanner.nextLine();
+        }
+
+        System.out.printf("Cars have average horsepower of: %.2f.%n", avgCarHp);
+        System.out.printf("Trucks have average horsepower of: %.2f.", avgTruckHp);
+
+    }
+}
