@@ -1,0 +1,113 @@
+package ListsExe;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class SoftUniCoursePlanning {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<String> lessonsSchedule = Arrays.stream(scanner.nextLine().split(", "))
+                .collect(Collectors.toList());
+
+        String command = scanner.nextLine();
+
+        while (!command.equals("course start")) {
+
+            String[] commandArray = command.split(":");
+
+            String action = commandArray[0];
+            String lessonTitle = commandArray[1];
+            String exerciseName = lessonTitle + "-Exercise";
+
+
+            if (action.equals("Add")) {
+
+
+                if (!lessonsSchedule.contains(lessonTitle)) {
+
+                    lessonsSchedule.add(lessonTitle);
+                }
+            } else if (action.equals("Insert")) {
+
+                int index = Integer.parseInt(commandArray[2]);
+
+                if (!lessonsSchedule.contains(lessonTitle)) {
+
+                    lessonsSchedule.add(index, lessonTitle);
+                }
+
+            } else if (action.equals("Remove")) {
+
+                if (lessonsSchedule.contains(lessonTitle)) {
+
+                    lessonsSchedule.remove(lessonTitle);
+                }
+                if (lessonsSchedule.contains(exerciseName)) {
+
+                    lessonsSchedule.remove(exerciseName);
+                }
+
+            } else if (action.equals("Swap")) {
+
+                String lessonTitle2 = commandArray[2];
+                String exerciseName2 = lessonTitle2 + "-Exercise";
+
+                if (lessonsSchedule.contains(lessonTitle) && lessonsSchedule.contains(lessonTitle2)) {
+
+                    int index1 = lessonsSchedule.indexOf(lessonTitle);
+                    int index2 = lessonsSchedule.indexOf(lessonTitle2);
+
+                    lessonsSchedule.set(index1, lessonTitle2);
+                    lessonsSchedule.set(index2, lessonTitle);
+
+                    if (lessonsSchedule.contains(exerciseName)){
+
+                        lessonsSchedule.remove(lessonsSchedule.indexOf(exerciseName));
+                        lessonsSchedule.add(lessonsSchedule.indexOf(lessonTitle) + 1, exerciseName);
+
+
+                    }
+
+                    if (lessonsSchedule.contains(exerciseName2)) {
+
+                        lessonsSchedule.remove(lessonsSchedule.indexOf(exerciseName2));
+                        lessonsSchedule.add(lessonsSchedule.indexOf(lessonTitle2) + 1, exerciseName2);
+
+
+
+                    }
+                }
+            } else if (action.equals("Exercise")) {
+
+
+
+                if (lessonsSchedule.contains(lessonTitle) && !lessonsSchedule.contains(exerciseName)) {
+
+                    int index = lessonsSchedule.indexOf(lessonTitle);
+
+                    lessonsSchedule.add(index + 1, exerciseName);
+
+                } else if (!lessonsSchedule.contains(lessonTitle)){
+
+                    lessonsSchedule.add(lessonTitle);
+                    lessonsSchedule.add(exerciseName);
+                }
+            }
+
+
+            command = scanner.nextLine();
+        }
+
+        for (int i = 0; i <= lessonsSchedule.size() - 1 ; i++) {
+
+            String currentLesson = lessonsSchedule.get(i);
+
+            System.out.printf("%d.%s%n", i + 1, currentLesson);
+
+        }
+    }
+}
