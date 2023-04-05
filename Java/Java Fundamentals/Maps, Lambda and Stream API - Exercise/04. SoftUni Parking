@@ -1,0 +1,56 @@
+package AssociativeArraysExe;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class SoftUniParking {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int commandsCount = Integer.parseInt(scanner.nextLine());
+        Map<String, String> registrationMap = new LinkedHashMap<>();
+
+        for (int i = 1; i <= commandsCount; i++) {
+
+            String command = scanner.nextLine();
+            String[] commandArr = command.split(" ");
+
+            String action = commandArr[0];
+            String username = commandArr[1];
+
+
+            if (action.equals("register")) {
+
+                String licensePlateNumber = commandArr[2];
+
+                if (!registrationMap.containsKey(username)) {
+
+                    registrationMap.put(username,licensePlateNumber);
+                    System.out.printf("%s registered %s successfully%n", username, licensePlateNumber);
+
+                } else {
+
+                    System.out.printf("ERROR: already registered with plate number %s%n", licensePlateNumber);
+                }
+            } else if (action.equals("unregister")) {
+
+                if (!registrationMap.containsKey(username)) {
+
+                    System.out.printf("ERROR: user %s not found%n", username);
+
+                } else {
+
+                    registrationMap.remove(username);
+                    System.out.printf("%s unregistered successfully%n", username);
+                }
+            }
+
+
+
+        }
+
+        registrationMap.entrySet().forEach(entry -> System.out.printf("%s => %s%n", entry.getKey(),
+                entry.getValue()));
+    }
+}
