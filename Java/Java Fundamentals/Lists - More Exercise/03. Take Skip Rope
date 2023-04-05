@@ -1,0 +1,104 @@
+package ListsME;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class TakeSkipRope {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String text = scanner.nextLine();
+
+        List<Character> elementsList = new ArrayList<>();
+
+        for (int i = 0; i <= text.length() - 1; i++) {
+
+            char currentSymbol = text.charAt(i);
+
+            elementsList.add(currentSymbol);
+
+        }
+
+        List<Integer> digits = new ArrayList<>();
+
+        for (int i = 0; i <= elementsList.size() -1; i++) {
+
+            char currentElement = elementsList.get(i);
+
+            if (Character.isDigit(currentElement)) {
+
+                String element = "" + currentElement;
+
+                digits.add(Integer.parseInt(element));
+
+                elementsList.remove(elementsList.indexOf(currentElement));
+
+                i -= 1;
+            }
+
+        }
+
+        List<Integer> takeList = new ArrayList<>();
+        List<Integer> skipList = new ArrayList<>();
+        int size = digits.size();
+
+
+        for (int i = 1; i <= size / 2; i++) {
+
+            int odd = digits.get(0);
+            int even = digits.get(1);
+
+            takeList.add(odd);
+            skipList.add(even);
+
+            digits.remove(digits.get(0));
+            digits.remove(digits.get(0));
+
+        }
+
+        List<Character> result = new ArrayList<>();
+
+        for (int i = 0; i <= takeList.size() - 1 ; i++) {
+
+            int index = 0;
+          int currentTake = takeList.get(i);
+          int currentSkip = skipList.get(i);
+
+          if (currentTake > 0) {
+
+              if (currentTake <= elementsList.size() - 1) {
+
+                  result.addAll(elementsList.subList(0, currentTake));
+
+                  elementsList.subList(0, currentTake).clear();
+
+              } else {
+
+                  result.addAll(elementsList);
+                  break;
+              }
+
+
+          }
+
+          if (currentSkip > 0) {
+
+              elementsList.subList(0, currentSkip).clear();
+          }
+
+
+        }
+
+        String resultText = "";
+
+        for (char symbol : result) {
+
+            resultText += symbol;
+        }
+
+        System.out.println(resultText);
+
+
+    }
+}
