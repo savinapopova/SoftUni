@@ -1,0 +1,110 @@
+package AssociativeArraysME;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Judge {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String,Map<String,Integer>> contestMap = new LinkedHashMap<>();
+        Map<String, Integer> pointsMap = new TreeMap<>();
+
+        while (!input.equals("no more time")) {
+
+            String[] inputArr = input.split(" -> ");
+            String username = inputArr[0];
+            String contest = inputArr[1];
+            int points = Integer.parseInt(inputArr[2]);
+
+            if (!contestMap.containsKey(contest)) {
+
+                contestMap.put(contest, new TreeMap<>());
+                contestMap.get(contest).put(username, points);
+
+
+            } else {
+
+                if (!contestMap.get(contest).containsKey(username)) {
+
+                    contestMap.get(contest).put(username, points);
+
+                } else {
+
+                    int currentPoints = contestMap.get(contest).get(username);
+
+                    if (points > currentPoints) {
+
+                        contestMap.get(contest).put(username, points);
+                    }
+                }
+            }
+
+            if (!pointsMap.containsKey(username)) {
+
+                pointsMap.put(username,0);
+
+            }
+
+            input = scanner.nextLine();
+
+
+        }
+
+        for (Map.Entry<String, Map<String, Integer>> entry : contestMap.entrySet()) {
+            for (Map.Entry<String, Integer> stringIntegerEntry : pointsMap.entrySet()) {
+                if (entry.getValue().containsKey(stringIntegerEntry.getKey())){
+                    int points = entry.getValue().get(stringIntegerEntry.getKey());
+                    int currentPoints = pointsMap.get(stringIntegerEntry.getKey());
+                    pointsMap.put(stringIntegerEntry.getKey(), points + currentPoints);
+
+
+                }
+
+            }
+
+        }
+        for (Map.Entry<String, Map<String, Integer>> entry : contestMap.entrySet()) {
+
+            System.out.printf("%s: %d participants%n", entry.getKey(), entry.getValue().size());
+
+            Map<String, Integer> sortedMap =  entry.getValue().entrySet().stream()
+                   .sorted((e1,e2) -> e2.getValue().compareTo(e1.getValue()))
+                   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+                   ,(a1, a2) -> a1, LinkedHashMap::new));
+
+            int p = 1;
+
+            for (Map.Entry<String, Integer> integerEntry : sortedMap.entrySet()) {
+
+                System.out.printf("%d. %s <::> %d%n", p, integerEntry.getKey(), integerEntry.getValue() );
+
+                p++;
+
+            }
+
+
+        }
+
+        System.out.println("Individual standings:");
+
+         pointsMap =  pointsMap.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+                        ,(a1, a2) -> a1, LinkedHashMap::new));
+
+                int n = 1;
+
+        for (Map.Entry<String, Integer> entry : pointsMap.entrySet()) {
+
+            System.out.printf("%d. %s -> %d%n", n, entry.getKey(), entry.getValue());
+
+            n++;
+
+
+        }
+
+
+    }
+}
