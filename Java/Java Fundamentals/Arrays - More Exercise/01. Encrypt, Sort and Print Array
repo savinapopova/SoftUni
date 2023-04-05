@@ -1,0 +1,59 @@
+import java.util.*;
+
+public class ArraysME {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = Integer.parseInt(scanner.nextLine());
+        String[] list = new String[n];
+
+        for (int i = 0; i <= n - 1; i++) {
+
+            list[i] = scanner.nextLine();
+
+            String currentString = list[i];
+
+            int sum = 0;
+
+            for (int j = 0; j <= currentString.length() - 1 ; j++) {
+
+                char currentSymbol = currentString.charAt(j);
+
+                if (currentSymbol == 'a' || currentSymbol == 'A' || currentSymbol == 'e' ||
+                currentSymbol == 'E' || currentSymbol == 'i' || currentSymbol == 'I' ||
+                currentSymbol == 'o' || currentSymbol == 'O' || currentSymbol == 'u' ||currentSymbol == 'U') {
+
+
+                    sum += currentSymbol * currentString.length();
+
+                } else {
+
+                    sum += currentSymbol / currentString.length();
+                }
+
+            }
+
+            list[i] =  "" + sum;
+
+
+        }
+
+
+
+        List<Integer> numList = new ArrayList<>();
+
+        for (int i = 0; i <= list.length - 1 ; i++) {
+            numList.add(Integer.parseInt(list[i]));
+
+        }
+
+        Collections.sort(numList);
+
+        for (int number : numList) {
+
+            System.out.println(number);
+        }
+
+
+    }
+}
