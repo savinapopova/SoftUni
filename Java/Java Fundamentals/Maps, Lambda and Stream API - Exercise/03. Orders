@@ -1,0 +1,65 @@
+package AssociativeArraysExe;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Orders {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String,Integer> quantityMap = new LinkedHashMap<>();
+        Map<String, Double> priceMap = new LinkedHashMap<>();
+
+        while (!input.equals("buy")) {
+
+            String[] inputArr = input.split(" ");
+            String item = inputArr[0];
+            double singlePrice = Double.parseDouble(inputArr[1]);
+            int quantity = Integer.parseInt(inputArr[2]);
+
+            priceMap.put(item, singlePrice);
+
+
+
+            if (!quantityMap.containsKey(item)) {
+
+
+                quantityMap.put(item, quantity);
+
+
+            } else {
+
+
+                int currentQuantity = quantityMap.get(item);
+
+                quantityMap.put(item, currentQuantity + quantity);
+
+
+            }
+
+
+
+            input = scanner.nextLine();
+        }
+
+        Map<String,Double> resultMap = new LinkedHashMap<>();
+
+        for (Map.Entry<String, Double> entry : priceMap.entrySet()) {
+            String item = entry.getKey();
+            double currentPrice = entry.getValue();
+            int currentQuantity = quantityMap.get(item);
+            double totalPrice = currentPrice * currentQuantity;
+            resultMap.put(item, totalPrice);
+        }
+
+        resultMap.entrySet().forEach(entry -> System.out.printf("%s -> %.2f%n", entry.getKey(), entry.getValue()));
+
+
+    }
+
+
+
+    }
+
