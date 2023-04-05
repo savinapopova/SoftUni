@@ -1,0 +1,46 @@
+package AssociativeArraysLab;
+
+import java.util.*;
+
+public class OddOccurrences {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] textArr = scanner.nextLine().split(" ");
+
+        Map<String, Integer> elCountsMap = new LinkedHashMap<>();
+
+        for (int i = 0; i <= textArr.length - 1; i++) {
+            String currentElement = textArr[i].toLowerCase();
+
+            if (!elCountsMap.containsKey(currentElement)) {
+
+                elCountsMap.put(currentElement, 1);
+
+            } else {
+
+                int currentCount = elCountsMap.get(currentElement);
+                elCountsMap.put(currentElement, currentCount + 1);
+            }
+
+
+                }
+
+
+
+        List<String> oddElements = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> entry : elCountsMap.entrySet()) {
+
+        if (entry.getValue() % 2 == 1) {
+
+            oddElements.add(entry.getKey());
+
+        }
+
+        }
+
+        System.out.println(String.join(", ", oddElements));
+    }
+}
