@@ -1,0 +1,72 @@
+package MethodsLab;
+
+import java.text.DecimalFormat;
+import java.util.Scanner;
+
+public class MathOperations {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int num1 = Integer.parseInt(scanner.nextLine());
+        String operator = scanner.nextLine();
+        int num2 = Integer.parseInt(scanner.nextLine());
+
+
+        if (operator.equals("/")) {
+
+            System.out.printf("%.0f",divide(num1, operator, num2));
+        } else {
+
+            System.out.println(calculate(num1, operator, num2));
+        }
+
+
+
+
+
+    }
+
+    public static int calculate (int num1, String operator, int num2) {
+
+        int result = 0;
+
+        switch (operator) {
+
+
+
+            case "*":
+
+                result = num1 * num2;
+
+                break;
+
+            case "+":
+
+                result = num1 + num2;
+
+                break;
+
+            case "-":
+
+                result = num1 - num2;
+
+                break;
+
+
+        }
+
+
+        return result;
+
+    }
+
+    public static double divide(int num1, String operator, int num2) {
+
+        double resultDivide = num1 * 1.0 /num2;
+
+        //DecimalFormat df = new DecimalFormat("0.00");
+        return resultDivide;
+
+    }
+}
