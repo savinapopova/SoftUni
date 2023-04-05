@@ -1,0 +1,109 @@
+package AssociativeArraysME;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class Ranking {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String, String> entryMap = new LinkedHashMap<>();
+
+        while (!input.equals("end of contests")) {
+
+            String[] inputArr = input.split(":");
+
+            String contest = inputArr[0];
+            String password = inputArr[1];
+
+            entryMap.put(contest, password);
+
+            input = scanner.nextLine();
+        }
+
+        Map<String, Map<String, Integer>> resultsMap = new TreeMap<>();
+
+        String data = scanner.nextLine();
+
+        while (!data.equals("end of submissions")) {
+
+            String[] dataArr = data.split("=>");
+
+            String currentContest = dataArr[0];
+            String currentPassword = dataArr[1];
+            String username = dataArr[2];
+            int points = Integer.parseInt(dataArr[3]);
+
+            if (entryMap.containsKey(currentContest)) {
+
+                if (entryMap.get(currentContest).equals(currentPassword)) {
+
+                    if (!resultsMap.containsKey(username)) {
+
+                        resultsMap.put(username,new LinkedHashMap<>());
+                        resultsMap.get(username).put(currentContest, points);
+
+                    } else if (resultsMap.containsKey(username) &&
+                    !resultsMap.get(username).containsKey(currentContest)) {
+
+                        resultsMap.get(username).put(currentContest, points);
+
+                    } else if (resultsMap.containsKey(username) &&
+                            resultsMap.get(username).containsKey(currentContest)) {
+
+                        int currentPoints = resultsMap.get(username).get(currentContest);
+                        if (points > currentPoints) {
+
+                            resultsMap.get(username).put(currentContest, points);
+
+                        }
+                    }
+                }
+            }
+
+
+            data = scanner.nextLine();
+        }
+
+        int maxSum = Integer.MIN_VALUE;
+        String bestUser = "";
+
+        for (Map.Entry<String, Map<String, Integer>> entry : resultsMap.entrySet()) {
+            String currentUsername = entry.getKey();
+           int sum = 0;
+            for (Map.Entry<String, Integer> stringIntegerEntry : entry.getValue().entrySet()) {
+                int currentPoints = stringIntegerEntry.getValue();
+
+                sum += currentPoints;
+            }
+            if (sum >= maxSum) {
+
+                maxSum = sum;
+                bestUser = entry.getKey();
+            }
+
+        }
+
+        System.out.printf("Best candidate is %s with total %d points.%n", bestUser, maxSum);
+        System.out.println("Ranking:");
+
+        for (Map.Entry<String, Map<String, Integer>> entry : resultsMap.entrySet()) {
+
+            System.out.println(entry.getKey());
+
+            entry.getValue().entrySet().stream()
+                    .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                    .forEach(contest -> System.out.printf("#  %s -> %d%n", contest.getKey(), contest. getValue()));
+
+
+
+
+
+        }
+
+
+    }
+}
