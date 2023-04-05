@@ -1,0 +1,32 @@
+package OCE;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class OrderByAgeN {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        Map<String, Integer> ageMap = new LinkedHashMap<>();
+
+        while (!input.equals("End")) {
+
+            String[] inputArr = input.split(" ");
+            String name = inputArr[0];
+            String id = inputArr[1];
+            int age = Integer.parseInt(inputArr[2]);
+
+            StringBuilder nameBuilder = new StringBuilder();
+            nameBuilder.append(name).append(" ").append(id);
+            ageMap.put(nameBuilder.toString(), age);
+
+            input = scanner.nextLine();
+        }
+
+        ageMap.entrySet().stream().sorted((e1,e2) -> e1.getValue().compareTo(e2.getValue()))
+                .forEach(entry -> System.out.printf("%s with ID: %s is %d years old.%n",
+                        entry.getKey().split(" ")[0], entry.getKey().split(" ")[1], entry.getValue()));
+    }
+}
