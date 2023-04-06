@@ -1,0 +1,123 @@
+package RegExExe;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class NetherRealms {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+
+        String[] demonNames = input.split(",\\s*");
+
+        for (int i = 0; i <= demonNames.length - 1; i++) {
+
+            String currentInput = demonNames[i];
+
+            String correctedName = getCorrectedName(currentInput);
+
+            String healthSymbols = getHealthSymbols(correctedName);
+
+            int health = getHealth(healthSymbols);
+
+           double damage = getDamage(correctedName);
+
+            System.out.printf("%s - %d health, %.2f damage%n", correctedName, health, damage);
+
+        }
+    }
+
+    private static String getCorrectedName(String currentInput) {
+
+        String regex = "[^ ,]+";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(currentInput);
+        StringBuilder correctedName = new StringBuilder();
+
+        while (matcher.find()) {
+
+            correctedName.append(matcher.group());
+
+        }
+        return correctedName.toString();
+    }
+
+    private static double getDamage(String correctedName) {
+
+        String regexBase = "[-+]?\\d+[\\.]?[\\d]*";
+        String regexOperators = "[\\/*]";
+
+        Pattern patternBase = Pattern.compile(regexBase);
+        Pattern patternOperators = Pattern.compile(regexOperators);
+
+        Matcher matcherBase = patternBase.matcher(correctedName);
+        Matcher matcherOperators = patternOperators.matcher(correctedName);
+
+        List<Double> digits = new ArrayList<>();
+        List<String> operators = new ArrayList<>();
+
+        while (matcherBase.find()) {
+
+            Double currentDigit = Double.parseDouble(matcherBase.group());
+            digits.add(currentDigit);
+        }
+
+        while (matcherOperators.find()) {
+
+            operators.add(matcherOperators.group());
+        }
+
+        double totalBase = 0;
+
+        for (double digit : digits) {
+
+            totalBase = totalBase + digit;
+        }
+
+        for (String operator : operators ) {
+
+            if (operator.equals("*")) {
+
+                totalBase = totalBase * 2;
+
+            } else if (operator.equals("/")) {
+
+                totalBase = totalBase / 2;
+            }
+        }
+
+        return totalBase;
+
+    }
+
+    private static int getHealth(String healthSymbols) {
+
+        int totalSum = 0;
+
+        for (char s : healthSymbols.toCharArray() ) {
+
+            totalSum += s;
+
+        }
+
+        return totalSum;
+    }
+
+    private static String getHealthSymbols(String correctedName) {
+
+        String regex = "([^-\\d+*\\/\\.]+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(correctedName);
+        StringBuilder healthSymbols = new StringBuilder();
+        while (matcher.find()) {
+
+            healthSymbols.append(matcher.group());
+        }
+
+        return healthSymbols.toString();
+    }
+}
