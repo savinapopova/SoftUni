@@ -1,0 +1,129 @@
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class RegExME {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine();
+        String[] ticketsArr = input.split(" *, *");
+
+
+
+        for (int i = 0; i <= ticketsArr.length - 1; i++) {
+
+            String currentTicket = ticketsArr[i];
+
+            if (currentTicket.length() != 20) {
+
+                System.out.println("invalid ticket");
+
+                continue;
+            }
+
+
+
+            if (isWinningTicket(currentTicket)) {
+
+                String winSymbols = getWinSymbols(currentTicket);
+                char symbol = winSymbols.charAt(0);
+                int count = getSymbolsCount(currentTicket, symbol);
+
+                if (count >= 6 && count <= 9) {
+
+                    System.out.printf("ticket \"%s\" - %d%c%n", currentTicket, count, symbol);
+
+                } else if (count == 10) {
+
+                    System.out.printf("ticket \"%s\" - 10%c Jackpot!%n", currentTicket, symbol);
+                }
+
+
+            } else {
+
+                System.out.printf("ticket \"%s\" - no match%n", currentTicket);
+            }
+
+        }
+
+
+    }
+
+    private static int getSymbolsCount(String currentTicket, char symbol) {
+
+        String leftHalf = currentTicket.substring(0, 10);
+        String rightHalf = currentTicket.substring(10);
+
+        int count = 0;
+
+        int countLeft = 0;
+
+        for (char s : leftHalf.toCharArray()) {
+
+            if (s == symbol) {
+
+                countLeft++;
+            }
+
+            int countRight = 0;
+
+            for (char c : rightHalf.toCharArray()) {
+
+                if (c == symbol) {
+
+                    countRight++;
+                }
+            }
+
+            count = Math.min(countLeft, countRight);
+        }
+        return count;
+    }
+
+    private static String getWinSymbols(String currentTicket) {
+
+        String leftHalf = currentTicket.substring(0, 10);
+        String rightHalf = currentTicket.substring(10);
+
+        String regex = "(@{6,})|(\\${6,})|(#{6,})|(\\^{6,})";
+        Pattern pattern = Pattern.compile(regex);
+
+        Matcher leftMatch = pattern.matcher(leftHalf);
+        Matcher rightMatch = pattern.matcher(rightHalf);
+        String winSymbols ="";
+        if (leftMatch.find()) {
+
+             winSymbols = leftMatch.group();
+
+        }
+
+        return winSymbols;
+    }
+
+    private static boolean isWinningTicket(String currentTicket) {
+
+        String leftHalf = currentTicket.substring(0, 10);
+        String rightHalf = currentTicket.substring(10);
+
+        String regex = "(@{6,})|(\\${6,})|(#{6,})|(\\^{6,})";
+        Pattern pattern = Pattern.compile(regex);
+
+        Matcher leftMatch = pattern.matcher(leftHalf);
+        Matcher rightMatch = pattern.matcher(rightHalf);
+
+        boolean isWinning = false;
+
+        if (leftMatch.find() && rightMatch.find()) {
+
+            
+
+                isWinning = true;
+
+
+
+
+        }
+        return isWinning;
+    }
+}
