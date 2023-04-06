@@ -1,0 +1,28 @@
+package RegExExe;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ExtractEmails {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String text = scanner.nextLine();
+        String regex = "( )(?<email>([A-Za-z0-9]+)(-[A-Za-z0-9]+|,[A-Za-z0-9]+|\\.[A-Za-z0-9]+|_[A-Za-z0-9]+" +
+                "|[A-Za-z0-9]*)@([A-Za-z0-9]+)(-[A-Za-z0-9]+|[A-Za-z0-9]*)\\.([A-Za-z0-9]+)(-[A-Za-z0-9]+" +
+                "|[A-Za-z0-9]*\\.|([A-Za-z0-9]+)(-[A-Za-z0-9]+|[A-Za-z0-9]*))+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+        while (matcher.find()) {
+            StringBuilder currentString = new StringBuilder(matcher.group("email"));
+
+            if (currentString.charAt(currentString.length() - 1) == '.') {
+                
+                currentString.deleteCharAt(currentString.length() - 1);
+            }
+
+            System.out.println(currentString);
+        }
+    }
+}
