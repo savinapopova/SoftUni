@@ -1,0 +1,40 @@
+package TextProcessingME;
+
+import java.util.Scanner;
+
+public class AsciiSimulator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        char firstSymbol = scanner.nextLine().charAt(0);
+        char secondSymbol = scanner.nextLine().charAt(0);
+        String input = scanner.nextLine();
+
+        int sum = 0;
+        int start = -1;
+        int end = -1;
+
+        if (firstSymbol == Math.min(firstSymbol,secondSymbol)) {
+
+            start = firstSymbol;
+            end = secondSymbol;
+
+        } else if (secondSymbol == Math.min(firstSymbol, secondSymbol)) {
+
+            start = secondSymbol;
+            end = firstSymbol;
+        }
+
+        for (char c : input.toCharArray()) {
+
+            if (c > start && c < end) {
+
+                sum += c;
+            }
+
+        }
+
+        System.out.println(sum);
+
+    }
+}
