@@ -1,0 +1,50 @@
+package TextProcessingExe;
+
+import java.util.Scanner;
+
+public class CharacterMultiplier {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] input = scanner.nextLine().split(" ");
+        String text1 = input[0];
+        String text2 = input[1];
+
+        int size = Math.min(text1.length(), text2.length());
+        int totalSum = 0;
+
+        for (int i = 0; i < size; i++) {
+            int num1 = (int) text1.charAt(i);
+            int num2 = (int) text2.charAt(i);
+
+            totalSum += num1 * num2;
+
+        }
+
+        if (text1.length() != text2.length()) {
+
+            String addChars = "";
+
+            if (text1.length() > text2.length()) {
+
+                addChars = text1.substring(text2.length());
+
+            } else if (text2.length() > text1.length()) {
+
+                addChars = text2.substring(text1.length());
+            }
+
+            for (int i = 0; i < addChars.length(); i++) {
+
+                int currentCharValue = (int) addChars.charAt(i);
+
+                totalSum += currentCharValue;
+
+            }
+
+        }
+
+
+        System.out.println(totalSum);
+    }
+}
