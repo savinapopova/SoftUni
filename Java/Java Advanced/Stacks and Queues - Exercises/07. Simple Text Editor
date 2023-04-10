@@ -1,0 +1,68 @@
+package Advanced_StacksAndQueuesExe;
+
+import java.util.ArrayDeque;
+import java.util.Scanner;
+
+public class SimpleTextEditor {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+
+        ArrayDeque<String> commands = new ArrayDeque<>();
+        ArrayDeque<String> previousStrings = new ArrayDeque<>();
+        StringBuilder textBuilder = new StringBuilder();
+
+        int n = Integer.parseInt(scanner.nextLine());
+
+        for (int i = 1; i <= n; i++) {
+
+            String input = scanner.nextLine();
+            String[] inputArr = input.split("\\s");
+            String action = inputArr[0];
+            String lastString = "";
+
+            if (action.equals("1")) {
+
+                String appendString = inputArr[1];
+
+                textBuilder.append(appendString);
+                commands.push(action);
+                previousStrings.push(appendString);
+
+            } else if (action.equals("2")) {
+
+                int countElementsToErase = Integer.parseInt(inputArr[1]);
+
+                if (textBuilder.length() > 0) {
+                    String substringToErase = textBuilder
+                        .substring(textBuilder.length() - countElementsToErase);
+                    commands.push(action);
+                    previousStrings.push(substringToErase);
+                    textBuilder.delete(textBuilder.length() - countElementsToErase, textBuilder.length());
+                }
+            } else if (action.equals("3")) {
+
+                int index = Integer.parseInt(inputArr[1]);
+                System.out.println(textBuilder.charAt(index - 1));
+
+            } else if (action.equals("4")) {
+                String lastCommand = commands.pop();
+                String lastText = previousStrings.pop();
+
+                if (lastCommand.equals("1")) {
+
+                    textBuilder.delete(textBuilder.length() - lastText.length(), textBuilder.length());
+
+
+                } else if (lastCommand.equals("2")) {
+
+                    textBuilder.append(lastText);
+                }
+            }
+
+
+        }
+
+
+    }
+}
