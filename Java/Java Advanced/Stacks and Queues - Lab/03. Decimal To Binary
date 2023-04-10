@@ -1,0 +1,29 @@
+package Advanced_StacksAndQueuesLab;
+
+import java.util.ArrayDeque;
+import java.util.Scanner;
+
+public class DecimalToBinaryConvertor {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int number = Integer.parseInt(scanner.nextLine());
+        ArrayDeque<Integer> binaryElements = new ArrayDeque<>();
+
+        if (number == 0) {
+
+            System.out.println(number);
+        } else {
+
+            while (number > 0) {
+
+                int element = number % 2;
+                binaryElements.push(element);
+                number = number / 2;
+            }
+
+            System.out.println(binaryElements.toString().replaceAll("[\\s,\\[\\]]", ""));
+
+        }
+    }
+}
