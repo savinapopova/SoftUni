@@ -1,0 +1,142 @@
+package Advanced_MultidimensionalArraysLab;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class WrongMeasurements {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int rows = Integer.parseInt(scanner.nextLine());
+
+        int[][] matrix = readMatrix(scanner, rows, 0, " ");
+        int[] coordinates = readArray(scanner.nextLine(), " ");
+        int wrongValue = matrix[coordinates[0]][coordinates[1]];
+
+        List<int[]> updatedValues = new ArrayList<>();
+
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
+
+                if (matrix[row][col] == wrongValue) {
+                    updatedValues.add(new int[] {row, col, getClosestItemsSum(row, col, matrix, wrongValue)});
+
+                }
+
+            }
+
+        }
+
+        for (int[] updatedValue : updatedValues) {
+            matrix[updatedValue[0]][updatedValue[1]] = updatedValue[2];
+        }
+
+        printMatrix(matrix);
+
+
+    }
+
+    private static int getClosestItemsSum(int row, int col, int[][] matrix, int wrongValue) {
+        int sum = 0;
+
+        if (col + 1 < matrix[row].length && matrix[row][col + 1] != wrongValue) {
+
+         sum +=   matrix[row][col + 1];//right
+        }
+
+        if (col - 1 >= 0 && matrix[row][col - 1] != wrongValue) {
+
+         sum +=   matrix[row][col - 1]; //left
+        }
+
+        if (row + 1 < matrix.length && matrix[row + 1][col] != wrongValue) {
+
+          sum +=  matrix[row + 1][col]; //down
+        }
+
+        if (row - 1 >= 0 && matrix[row - 1][col] != wrongValue) {
+
+            sum += matrix[row - 1][col];//up
+        }
+        return  sum;
+
+
+
+    }
+
+    private static void printMatrix(int[][] matrix) {
+
+        for (int[] arr : matrix) {
+
+            for (int element : arr) {
+
+                System.out.print(element + " ");
+            }
+            System.out.println();
+
+
+        }
+    }
+
+    private static int getElementsSum(int[][] matrix) {
+
+        int sum = 0;
+
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
+                sum += matrix[row][col];
+            }
+        }
+        return sum;
+    }
+
+    private static int[][] getMaxSumSubMatrix(int[][] matrix) {
+
+        int maxSum = 0;
+        int bestRow = 0;
+        int bestCol = 0;
+
+        for (int row = 0; row < matrix.length -1; row++) {
+            for (int col = 0; col < matrix[row].length - 1; col++) {
+
+                int sum =
+                        matrix[row][col] +
+                                matrix[row][col + 1] +
+                                matrix[row + 1][col] +
+                                matrix[row + 1][col + 1];
+
+                if (sum > maxSum) {
+
+                    maxSum = sum;
+                    bestRow = row;
+                    bestCol = col;
+
+                }
+            }
+
+        }
+        return new int[][] {
+                {matrix[bestRow][bestCol], matrix[bestRow][bestCol + 1]},
+                {matrix[bestRow + 1][bestCol], matrix[bestRow + 1][bestCol + 1]}
+
+        };
+    }
+
+    private static int[] readArray(String line, String pattern) {
+        return Arrays.stream(line.split(pattern))
+                .mapToInt(Integer::parseInt).toArray();
+    }
+
+    private static int[][] readMatrix(Scanner scanner, int rows, int cols, String pattern) {
+
+        int[][] matrix = new int[rows][cols];
+        for (int row = 0; row < rows; row++) {
+
+            matrix[row] = readArray(scanner.nextLine(), pattern);
+
+        }
+        return matrix;
+    }
+}
